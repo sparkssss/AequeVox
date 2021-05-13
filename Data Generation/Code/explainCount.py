@@ -3,6 +3,8 @@ groupNames = ['Eng', 'Gan', 'Fr', 'Guj', 'Indo', 'Kor', 'Rus']
 
 compItemLs = ['please', 'call', 'stella', 'ask', 'her', 'to', 'bring', 'these', 'things', 'with', 'from', 'the', 'store', 'six', 'spoons', 'of', 'fresh', 'snow', 'peas', 'five', 'thick', 'slabs', 'blue', 'cheese', 'and', 'maybe', 'a', 'snack', 'for', 'brother', 'bob', 'we', 'also', 'need', 'small', 'plastic', 'snake', 'big', 'toy', 'frog', 'kids', 'she', 'can', 'scoop', 'into', 'three', 'red', 'bags', 'will', 'go', 'meet', 'wednesday', 'at', 'train', 'station']
 #List of Words in GT Provided in this case. Computation can be done without GT as well.
+#Use words foung in least destructive transformation as base.
+#Transformations are ordered from most to least destructive.
 
 transType = 'Noise'
 #Comprehensive List of Transformations: Noise, Amp, Clipping, Drop,
