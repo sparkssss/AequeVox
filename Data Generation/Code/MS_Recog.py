@@ -1,7 +1,7 @@
 groupName = 'nativeEnglish'
 #specify Group Name for Storage of Results
 
-transType = 'Noise'
+transList = ['Noise', 'Amp', 'Clipping', 'Drop', 'Frame', 'HP', 'LP', 'Scale']
 #Comprehensive List of Transformations: Noise, Amp, Clipping, Drop,
 #Frame, HP, LP, and Scale. Replace with Desired Tranformations
 
@@ -24,7 +24,7 @@ scale = [0.5, 0.6, 0.7, 0.8, 0.9, 1.0] #Parameters for Scale
 #Modify the transformation parameter if necessary
 
 listUse = ['example1.wav', 'example2.wav', 'example3.wav']
-#List of Original Unmodified Files to be transformed
+#List of Original Unmodified Files in Group
 
 import azure.cognitiveservices.speech as speechsdk
 
@@ -84,65 +84,67 @@ def speech_recognize_continuous_from_file(fileName):
     
     return all_results
 
-if (transType=='Noise'):
-    
-    arrPar = SNR
-    appChar = 'N'
-elif (transType=='Amp'):
-    
-    arrPar = amp
-    appChar = 'A'
-elif (transType=='Clipping'):
-    
-    arrPar = clipping
-    appChar = 'C'
-elif (transType=='Drop'):
-    
-    arrPar = drop
-    appChar = 'D'
-elif (transType=='Frame'):
-    
-    arrPar = frame
-    appChar = 'F'
-elif (transType=='HP'):
-    
-    arrPar = highpass
-    appChar = 'HP'
-elif (transType=='LP'):
-    
-    arrPar = lowpass
-    appChar = 'LP'
-elif (transType=='Scale'):
-    
-    arrPar = scale
-    appChar = 'S'
+for transType in transList:
 
-for elem in arrPar:
+    if (transType=='Noise'):
+        
+        arrPar = SNR
+        appChar = 'N'
+    elif (transType=='Amp'):
+        
+        arrPar = amp
+        appChar = 'A'
+    elif (transType=='Clipping'):
+        
+        arrPar = clipping
+        appChar = 'C'
+    elif (transType=='Drop'):
+        
+        arrPar = drop
+        appChar = 'D'
+    elif (transType=='Frame'):
+        
+        arrPar = frame
+        appChar = 'F'
+    elif (transType=='HP'):
+        
+        arrPar = highpass
+        appChar = 'HP'
+    elif (transType=='LP'):
+        
+        arrPar = lowpass
+        appChar = 'LP'
+    elif (transType=='Scale'):
+        
+        arrPar = scale
+        appChar = 'S'
     
-    resList = []
-    
-    for speechNum in listUse:
+    for elem in arrPar:
         
-        fileNum = speechNum[:-4]
+        resList = []
         
-        newFile = fileNum + appChar + str(elem) + '.wav'
-        
-        resList.append(newFile)
-        
-        result = speech_recognize_continuous_from_file(newFile)
-        
-        finRes = ''
-        
-        for resElem in result:
+        for speechNum in listUse:
             
-            finRes += resElem
-
-        resList.append(finRes)
-        
-        strGroup = groupName + '_MS_' + appChar + str(elem) + '.txt' 
-        
-        opFile = strGroup
+            fileNum = speechNum[:-4]
+            
+            newFile = fileNum + appChar + str(elem) + '.wav'
+            
+            resList.append(newFile)
+            
+            result = speech_recognize_continuous_from_file(newFile)
+            
+            finRes = ''
+            
+            for resElem in result:
+                
+                finRes += resElem
     
-        with open(opFile, 'w') as f:
-            for item in resList:
-                f.write("%s\n" % item)
+            resList.append(finRes)
+            
+            strGroup = groupName + '_MS_' + appChar + str(elem) + '.txt' 
+            
+            opFile = strGroup
+        
+            with open(opFile, 'w') as f:
+                for item in resList:
+                    f.write("%s\n" % item)

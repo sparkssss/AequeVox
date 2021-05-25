@@ -1,7 +1,7 @@
 groupName = 'nativeEnglish'
 #specify Group Name for Storage of Results
 
-transType = 'Noise'
+transList = ['Noise', 'Amp', 'Clipping', 'Drop', 'Frame', 'HP', 'LP', 'Scale']
 #Comprehensive List of Transformations: Noise, Amp, Clipping, Drop,
 #Frame, HP, LP, and Scale. Replace with Desired Tranformations
 
@@ -24,7 +24,7 @@ scale = [0.5, 0.6, 0.7, 0.8, 0.9, 1.0] #Parameters for Scale
 #Modify the transformation parameter if necessary
 
 listUse = ['example1.wav', 'example2.wav', 'example3.wav']
-#List of Original Unmodified Files to be transformed
+#List of Original Unmodified Files in Group
 
 apiKey = 'insert_api_key_here'
 serviceURL = '{url}'
@@ -47,81 +47,83 @@ service.set_default_headers({'x-watson-learning-opt-out': "true"})
 
 service.set_service_url(serviceURL)
 
-if (transType=='Noise'):
-    
-    arrPar = SNR
-    appChar = 'N'
-elif (transType=='Amp'):
-    
-    arrPar = amp
-    appChar = 'A'
-elif (transType=='Clipping'):
-    
-    arrPar = clipping
-    appChar = 'C'
-elif (transType=='Drop'):
-    
-    arrPar = drop
-    appChar = 'D'
-elif (transType=='Frame'):
-    
-    arrPar = frame
-    appChar = 'F'
-elif (transType=='HP'):
-    
-    arrPar = highpass
-    appChar = 'HP'
-elif (transType=='LP'):
-    
-    arrPar = lowpass
-    appChar = 'LP'
-elif (transType=='Scale'):
-    
-    arrPar = scale
-    appChar = 'S'
-    
 import librosa
 
-for elem in arrPar:
-    
-    resList = []
-    
-    for speechNum in listUse:
-        
-        fileNum = speechNum[:-4]
-        
-        newFile = fileNum + appChar + str(elem) + '.wav'
-        
-        resList.append(newFile)
-        
-        signal, sr = librosa.load(newFile, sr=None)
-        
-        stringContent = 'audio/l16;rate=' + str(sr)
-        
-        with open(join(dirname(__file__), newFile),
-                  'rb') as audio_file:
-            response = service.recognize(
-                    audio=audio_file,
-                    model='en-US_BroadbandModel',
-                    content_type=stringContent,
-                    rate=sr).get_result()
-        
-        finRes = ''
-        
-        for result in response['results']:
-            
-            intResIBM = (result['alternatives'][0]['transcript'])
-            
-            intResIBM = intResIBM.replace("%HESITATION", "")
-            
-            finRes += intResIBM
+for transType in transList:
 
-        resList.append(finRes)
+    if (transType=='Noise'):
         
-        strGroup = groupName + '_IBM_' + appChar + str(elem) + '.txt' 
+        arrPar = SNR
+        appChar = 'N'
+    elif (transType=='Amp'):
         
-        opFile = strGroup
+        arrPar = amp
+        appChar = 'A'
+    elif (transType=='Clipping'):
+        
+        arrPar = clipping
+        appChar = 'C'
+    elif (transType=='Drop'):
+        
+        arrPar = drop
+        appChar = 'D'
+    elif (transType=='Frame'):
+        
+        arrPar = frame
+        appChar = 'F'
+    elif (transType=='HP'):
+        
+        arrPar = highpass
+        appChar = 'HP'
+    elif (transType=='LP'):
+        
+        arrPar = lowpass
+        appChar = 'LP'
+    elif (transType=='Scale'):
+        
+        arrPar = scale
+        appChar = 'S'
     
-        with open(opFile, 'w') as f:
-            for item in resList:
-                f.write("%s\n" % item)
+    for elem in arrPar:
+        
+        resList = []
+        
+        for speechNum in listUse:
+            
+            fileNum = speechNum[:-4]
+            
+            newFile = fileNum + appChar + str(elem) + '.wav'
+            
+            resList.append(newFile)
+            
+            signal, sr = librosa.load(newFile, sr=None)
+            
+            stringContent = 'audio/l16;rate=' + str(sr)
+            
+            with open(join(dirname(__file__), newFile),
+                      'rb') as audio_file:
+                response = service.recognize(
+                        audio=audio_file,
+                        model='en-US_BroadbandModel',
+                        content_type=stringContent,
+                        rate=sr).get_result()
+            
+            finRes = ''
+            
+            for result in response['results']:
+                
+                intResIBM = (result['alternatives'][0]['transcript'])
+                
+                intResIBM = intResIBM.replace("%HESITATION", "")
+                
+                finRes += intResIBM
+    
+            resList.append(finRes)
+            
+            strGroup = groupName + '_IBM_' + appChar + str(elem) + '.txt' 
+            
+            opFile = strGroup
+        
+            with open(opFile, 'w') as f:
+                for item in resList:
+                    f.write("%s\n" % item)
