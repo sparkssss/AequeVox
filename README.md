@@ -6,33 +6,33 @@ README under development.
 
 Python Packages Required
 
-numpy
-scipy
-math
-librosa
-random
-time
-json
-threading
-re
-nltk
+* numpy
+* scipy
+* math
+* librosa
+* random
+* time
+* json
+* threading
+* re
+* nltk
 
 ASR Specific Packages
 
 Google Cloud
 
-speech
-Storage
+* speech
+* Storage
 
 Microsoft Azure
 
-Azure.cognitiveservices.speech
+* Azure.cognitiveservices.speech
 
 IBM Cloud
 
-ibm_watson
-ibm_watson.websocket
-Ibm_cloud_sdk_core.authenticators
+* ibm_watson
+* ibm_watson.websocket
+* Ibm_cloud_sdk_core.authenticators
 
 The code is separated into 2 sections, Generation and Analysis.
 
@@ -40,21 +40,21 @@ Generation:
 
 transGen.py
 
--Lists all transformation types and magnitudes to be used. Can be modified as necessary.
--Requires the specification of file names of all the original speech files.
+* Lists all transformation types and magnitudes to be used. Can be modified as necessary.
+* Requires the specification of file names of all the original speech files.
 
 Generates transformed speech files with form {Original File Name}{Transformation Type Abbreviation}{Magnitude of Transformation Parameter, theta}.wav
 
 List of Abbreviations.
 
-A - Amplitude
-C - Clipping
-D - Drop
-F - Frame
-HP - Highpass
-LP - LP
-N - Noise
-S - Scale
+1. A - Amplitude
+2. C - Clipping
+3. D - Drop
+4. F - Frame
+5. HP - Highpass
+6. LP - LP
+7. N - Noise
+8. S - Scale
 
 GCP_Recog.py
 
