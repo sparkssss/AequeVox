@@ -50,7 +50,7 @@ For ease of use, it is recommended that all audio files belonging to a group are
 For instance, if we had 3 files, english1.wav, english2.wav and english3.wav, they ought to be placed into a folder titled english
 along with a text file named fileNames.txt containing the below.
 
-listUse = 'example1.wav', 'example2.wav', 'example3.wav'
+listUse = 'english1.wav', 'english2.wav', 'english3.wav'
 
 For end to end testing of the tool, we recommend running the following files in sequence
 
