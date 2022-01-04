@@ -5,6 +5,180 @@ import math
 
 import librosa
 
+configText = 'CONFIG.txt'
+
+fConfig = open(configText, "r")
+
+while True:
+    
+    line = fConfig.readline()
+    
+    if not line:
+        break
+    
+    words = line[:-1]
+        
+    if words.startswith('SNR'):
+        
+        start = words.find('[') + 1
+        
+        end = words.find(']')
+        
+        intWords = words[start:end]
+        
+        resWords = intWords.split(',')
+        
+        resWords = [int(i) for i in resWords]
+        
+        SNR = resWords
+        
+    if words.startswith('amp'):
+        
+        start = words.find('[') + 1
+        
+        end = words.find(']')
+        
+        intWords = words[start:end]
+        
+        resWords = intWords.split(',')
+        
+        resWords = [float(i) for i in resWords]
+        
+        amp = resWords
+        
+    if words.startswith('clipping'):
+        
+        start = words.find('[') + 1
+        
+        end = words.find(']')
+        
+        intWords = words[start:end]
+        
+        resWords = intWords.split(',')
+        
+        resWords = [float(i) for i in resWords]
+        
+        clipping = resWords
+        
+    if words.startswith('drop'):
+        
+        start = words.find('[') + 1
+        
+        end = words.find(']')
+        
+        intWords = words[start:end]
+        
+        resWords = intWords.split(',')
+        
+        resWords = [int(i) for i in resWords]
+        
+        drop = resWords
+        
+    if words.startswith('frame'):
+        
+        start = words.find('[') + 1
+        
+        end = words.find(']')
+        
+        intWords = words[start:end]
+        
+        resWords = intWords.split(',')
+        
+        resWords = [int(i) for i in resWords]
+        
+        frame = resWords
+        
+    if words.startswith('highpass'):
+        
+        start = words.find('[') + 1
+        
+        end = words.find(']')
+        
+        intWords = words[start:end]
+        
+        resWords = intWords.split(',')
+        
+        resWords = [int(i) for i in resWords]
+        
+        highpass = resWords
+        
+    if words.startswith('lowpass'):
+        
+        start = words.find('[') + 1
+        
+        end = words.find(']')
+        
+        intWords = words[start:end]
+        
+        resWords = intWords.split(',')
+        
+        resWords = [int(i) for i in resWords]
+        
+        lowpass = resWords
+        
+    if words.startswith('scale'):
+        
+        start = words.find('[') + 1
+        
+        end = words.find(']')
+        
+        intWords = words[start:end]
+        
+        resWords = intWords.split(',')
+        
+        resWords = [float(i) for i in resWords]
+        
+        scale = resWords
+        
+    if words.startswith('groupNames'):
+        
+        intWordInd = words.find('\'')
+        
+        intWords = words[intWordInd:]
+        
+        resWords = intWords.split(',')
+        
+        newResWords = []
+        
+        for resWord in resWords:
+            
+            start = resWord.find('\'') + 1
+            resWord = resWord[start:]
+            end = resWord.find('\'')
+            resWord = resWord[:end]
+            
+            newResWords.append(resWord)
+            
+        resWords = newResWords
+        
+        groupNames = resWords
+        
+    if words.startswith('transList'):
+        
+        intWordInd = words.find('\'')
+        
+        intWords = words[intWordInd:]
+        
+        resWords = intWords.split(',')
+        
+        newResWords = []
+        
+        for resWord in resWords:
+            
+            start = resWord.find('\'') + 1
+            resWord = resWord[start:]
+            end = resWord.find('\'')
+            resWord = resWord[:end]
+            
+            newResWords.append(resWord)
+            
+        resWords = newResWords
+        
+        transList = resWords
+        
+fConfig.close()
+
+'''
 transList = ['Noise', 'Amp', 'Clipping', 'Drop', 'Frame', 'HP', 'LP', 'Scale']
 #Comprehensive List of Transformations: Noise, Amp, Clipping, Drop,
 #Frame, HP, LP, and Scale. Replace with Desired Tranformations
@@ -29,6 +203,7 @@ scale = [0.5, 0.6, 0.7, 0.8, 0.9, 1.0] #Parameters for Scale
 
 listUse = ['example1.wav', 'example2.wav', 'example3.wav']
 #List of Files to be transformed
+'''
 
 def butter_lowpass_filter(data, cutoff, fs, order):
     
@@ -54,125 +229,169 @@ from scipy.io.wavfile import write
 
 import random
 
-for transType in transList:
-
-    if (transType=='Noise'):
-        
-        arrPar = SNR
-        appChar = 'N'
-    elif (transType=='Amp'):
-        
-        arrPar = amp
-        appChar = 'A'
-    elif (transType=='Clipping'):
-        
-        arrPar = clipping
-        appChar = 'C'
-    elif (transType=='Drop'):
-        
-        arrPar = drop
-        appChar = 'D'
-    elif (transType=='Frame'):
-        
-        arrPar = frame
-        appChar = 'F'
-    elif (transType=='HP'):
-        
-        arrPar = highpass
-        appChar = 'HP'
-    elif (transType=='LP'):
-        
-        arrPar = lowpass
-        appChar = 'LP'
-    elif (transType=='Scale'):
-        
-        arrPar = scale
-        appChar = 'S'
+for group in groupNames:
     
-    for elem in arrPar:
+    fNamesText = group + '/' + 'fileNames.txt'
+    
+    fNames = open(fNamesText, "r")
+    
+    while True:
         
-        resList = []
+        line = fNames.readline()
         
-        for speechNum in listUse:
+        if not line:
+            break
+        
+        words = line[:-1]
+        
+        if words[:7] == 'listUse':
             
-            fileNum = speechNum[:-4]
-            fileName = speechNum
-            signal, sr = librosa.load(fileName, sr=None)
+            intWords = words[7:]
             
-            if transType=='Noise':
-                
-                RMS_Signal=math.sqrt(np.mean(signal**2))
-                
-                RMSNoise = math.sqrt(RMS_Signal**2/(pow(10,elem/10)))
-                noise=np.random.normal(0, RMSNoise, len(signal))
-                finSpeech = signal + noise
-            elif transType=='Drop':        
+            intWordInd = intWords.find('\'')
             
-                numSec = signal.shape[0]/sr
-                numBlocks = math.floor(numSec/(0.04))
+            intWords = intWords[intWordInd:]
+            
+            resWords = intWords.split(',')
+            
+            newResWords = []
+            
+            for resWord in resWords:
                 
-                numSelect = math.floor((elem/100)*numBlocks*2)
+                start = resWord.find('\'') + 1
+                resWord = resWord[start:]
+                end = resWord.find('\'')
+                resWord = resWord[:end]
                 
-                sBlocks = random.sample(range(1, numBlocks+1), numSelect)
+                newResWords.append(resWord)
                 
-                for block in sBlocks:
+            resWords = newResWords
+            
+            listUse = resWords
+
+    for transType in transList:
+    
+        if (transType=='Noise'):
+            
+            arrPar = SNR
+            appChar = 'N'
+        elif (transType=='Amp'):
+            
+            arrPar = amp
+            appChar = 'A'
+        elif (transType=='Clipping'):
+            
+            arrPar = clipping
+            appChar = 'C'
+        elif (transType=='Drop'):
+            
+            arrPar = drop
+            appChar = 'D'
+        elif (transType=='Frame'):
+            
+            arrPar = frame
+            appChar = 'F'
+        elif (transType=='HP'):
+            
+            arrPar = highpass
+            appChar = 'HP'
+        elif (transType=='LP'):
+            
+            arrPar = lowpass
+            appChar = 'LP'
+        elif (transType=='Scale'):
+            
+            arrPar = scale
+            appChar = 'S'
+        
+        for elem in arrPar:
+            
+            resList = []
+            
+            for speechNum in listUse:
+                
+                speechNum = group + '/' + speechNum
+                
+                fileNum = speechNum[:-4]
+                fileName = speechNum
+                signal, sr = librosa.load(fileName, sr=None)
+                
+                if transType=='Noise':
                     
-                    blockInd = math.floor((block-1)*sr*0.04)
-                    jumpInd = math.floor(sr*0.02)
-                    signal[blockInd:blockInd+jumpInd] = 0
+                    RMS_Signal=math.sqrt(np.mean(signal**2))
                     
-                finSpeech = signal
-            elif transType=='Frame':
-            
-                numSec = signal.shape[0]/sr
-                frameSize = elem/1000
+                    RMSNoise = math.sqrt(RMS_Signal**2/(pow(10,elem/10)))
+                    noise=np.random.normal(0, RMSNoise, len(signal))
+                    finSpeech = signal + noise
+                elif transType=='Drop':        
                 
-                numBlocks = math.floor(numSec/(frameSize*2))
-                
-                numSelect = math.floor((10/100)*numBlocks*2)
-                
-                sBlocks = random.sample(range(1, numBlocks+1), numSelect)
-                
-                for block in sBlocks:
+                    numSec = signal.shape[0]/sr
+                    numBlocks = math.floor(numSec/(0.04))
                     
-                    blockInd = math.floor((block-1)*sr*frameSize*2)
-                    jumpInd = math.floor(sr*frameSize)
-                    signal[blockInd:blockInd+jumpInd] = 0
+                    numSelect = math.floor((elem/100)*numBlocks*2)
                     
-                finSpeech = signal
-            elif transType=='Amp':
+                    sBlocks = random.sample(range(1, numBlocks+1), numSelect)
+                    
+                    for block in sBlocks:
+                        
+                        blockInd = math.floor((block-1)*sr*0.04)
+                        jumpInd = math.floor(sr*0.02)
+                        signal[blockInd:blockInd+jumpInd] = 0
+                        
+                    finSpeech = signal
+                elif transType=='Frame':
                 
-                signal = signal * elem
-                finSpeech = signal
-            elif transType=='HP':
+                    numSec = signal.shape[0]/sr
+                    frameSize = elem/1000
+                    
+                    numBlocks = math.floor(numSec/(frameSize*2))
+                    
+                    numSelect = math.floor((10/100)*numBlocks*2)
+                    
+                    sBlocks = random.sample(range(1, numBlocks+1), numSelect)
+                    
+                    for block in sBlocks:
+                        
+                        blockInd = math.floor((block-1)*sr*frameSize*2)
+                        jumpInd = math.floor(sr*frameSize)
+                        signal[blockInd:blockInd+jumpInd] = 0
+                        
+                    finSpeech = signal
+                elif transType=='Amp':
+                    
+                    signal = signal * elem
+                    finSpeech = signal
+                elif transType=='HP':
+                    
+                    order = 2
+                    
+                    finSpeech = butter_lowpass_filter(signal, elem, sr, order)
+                elif transType=='LP':
+                    
+                    order = 2
                 
-                order = 2
+                    finSpeech = butter_highpass_filter(signal, elem, sr, order)
                 
-                finSpeech = butter_lowpass_filter(signal, elem, sr, order)
-            elif transType=='LP':
+                finSpeech /=1.414
                 
-                order = 2
-            
-                finSpeech = butter_highpass_filter(signal, elem, sr, order)
-            
-            finSpeech /=1.414
-            
-            if transType=='Clipping':
+                if transType=='Clipping':
+                    
+                    boolOver = finSpeech > elem
+                    boolUnder = finSpeech < (elem * -1)
+                    
+                    finSpeech[boolOver] = elem
+                    finSpeech[boolUnder] = (elem * -1)
                 
-                boolOver = finSpeech > elem
-                boolUnder = finSpeech < (elem * -1)
+                finSpeech *= 32767
+                speechWav = finSpeech.astype(np.int16)
                 
-                finSpeech[boolOver] = elem
-                finSpeech[boolUnder] = (elem * -1)
-            
-            finSpeech *= 32767
-            speechWav = finSpeech.astype(np.int16)
-            
-            newFile = fileNum + appChar + str(elem) + '.wav'
-            
-            if transType=='Scale':
+                newFile = fileNum + appChar + str(elem) + '.wav'
                 
-                write(newFile, math.floor(sr*elem), speechWav)
-            else:
-                
-                write(newFile, sr, speechWav)
+                if transType=='Scale':
+                    
+                    write(newFile, math.floor(sr*elem), speechWav)
+                else:
+                    
+                    write(newFile, sr, speechWav)
+                    
+    fNames.close()

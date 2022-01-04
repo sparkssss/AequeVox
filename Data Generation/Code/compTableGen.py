@@ -226,124 +226,197 @@ scale = [0.5, 0.6, 0.7, 0.8, 0.9, 1.0] #Parameters for Scale
 
 '''
 
-import re
-
-import nltk
+import csv
 
 for transType in transList:
-
+    
     if (transType=='Noise'):
         
         arrPar = SNR
-        appChar = 'N'
     elif (transType=='Amp'):
         
         arrPar = amp
-        appChar = 'A'
     elif (transType=='Clipping'):
         
         arrPar = clipping
-        appChar = 'C'
     elif (transType=='Drop'):
         
         arrPar = drop
-        appChar = 'D'
     elif (transType=='Frame'):
         
         arrPar = frame
-        appChar = 'F'
     elif (transType=='HP'):
         
         arrPar = highpass
-        appChar = 'HP'
     elif (transType=='LP'):
         
         arrPar = lowpass
-        appChar = 'LP'
     elif (transType=='Scale'):
         
         arrPar = scale
-        appChar = 'S'
-    
+
     fileName = datasetName + '_' + asrType1 + '_' + asrType2 + transType + '.txt'
-        
-    fW = open(fileName, "w")
+    #File_Name_GCP_MSNoise.txt
     
-    for groupSel in groupNames:
+    writeFile = asrType1 + "_" +asrType2 + " Differential Speech Results - " + transType + '.csv'
+    
+    with open(writeFile, 'w', encoding='UTF8', newline='') as fW:
+    
+        writer = csv.writer(fW)
         
-        fW.write(str(groupSel)+'\n')
+        firstRow = ['']
+        
+        count = 1
+        
+        for group in groupNames:
             
-        distList = []
-    
+            count = count + 1
+            
+            firstRow.append(group)
+            
+        writer.writerow(firstRow)
+        
         for elem in arrPar:
             
-            comp1 = []
-            comp2 = []
+            rowVal = [elem]
             
-            fileA = groupSel + '_' + asrType1 + '_' + appChar + str(elem) + '.txt'
-            fileB = groupSel + '_' + asrType2 + '_' + appChar + str(elem) + '.txt'
-            
-            f1 = open(fileA, "r")
-            
-            for x in f1:
-                if not x[-5:-1] == '.wav':
-                    
-                    x = x.replace("%HESITATION", "")
-                    
-                    resX = re.split('[- : , ; . \s \n]',x)
-                    resX[:] = [y for y in resX if y]
-                    resX = [z.lower() for z in resX]
-                    
-                    comp1.append(resX)
-                    
-            f1.close()
-                    
-            comp1 = comp1[:-1]
-            
-            f1 = open(fileB, "r")
-            
-            for x in f1:
-                if not x[-5:-1] == '.wav':
-                    
-                    x = x.replace("%HESITATION", "")
-                    
-                    resX = re.split('[- : , ; . \s \n]',x)
-                    resX[:] = [y for y in resX if y]
-                    resX = [z.lower() for z in resX]
-                    
-                    comp2.append(resX)
-                    
-            f1.close()
-            
-            comp2 = comp2[:-1]
-            
-            sumDist = 0.0
-            sumWords = 0
-            
-            count = 0
-            
-            for sen1 in comp1:
+            for group in groupNames:
                 
-                sen2 = comp2[count]
+                fR = open(fileName, "r")
                 
-                dist = nltk.edit_distance(sen1, sen2)
+                groupCheck = False
+                loopCheck = True
                 
-                len1 = len(sen1)
-                len2 = len(sen2)
-                
-                numWords = max(len1, len2)
-                
-                sumDist = sumDist + dist
-                sumWords = sumWords + numWords
-                
-                count = count + 1
-                
-            avgDist = sumDist/sumWords
-    
-            distList.append((elem, avgDist))
+                while loopCheck:
+                    
+                    # Get next line from file
+                    line = fR.readline()
+                    
+                    if not line:
+                        break
+                    
+                    words = line[:-1]
+                    
+                    if (words==group):
+                        
+                        groupCheck = True
+                        
+                    if (words!=group) and groupCheck:
+                        
+                        indVal = words[1:-1].split(",")[0]
+                                  
+                        if (str(elem)==indVal):
+                            
+                            actDist = (words[1:-1].split(","))[-1]
+                            
+                            rowVal.append(float(actDist))
+                            
+                            loopCheck = False
+                            
+                            fR.close()
+                            
+            writer.writerow(rowVal)
+            
+        intRow = ([''] * count)
+        writer.writerow(intRow)
         
-        for tup in distList:
+        orgRow = ['Original']
+        
+        fScaleName = datasetName + '_' + asrType1 + '_' + asrType2 + 'Scale' + '.txt'
+        
+        for group in groupNames:
             
-            fW.write(str(tup)+'\n')
+            fR = open(fScaleName, "r")
             
-    fW.close()
+            groupCheck = False
+            loopCheck = True
+            
+            while loopCheck:
+                
+                # Get next line from file
+                line = fR.readline()
+                
+                if not line:
+                    break
+                
+                words = line[:-1]
+                
+                if (words==group):
+                    
+                    groupCheck = True
+                    
+                if ((words!=group) and groupCheck):
+                    
+                    indVal = words[1:-1].split(",")[0]
+                              
+                    if (indVal=='1.0'):
+                        
+                        actDist = words[1:-1].split(",")[-1]
+                        
+                        orgRow.append(float(actDist))
+                        
+                        loopCheck = False
+                        
+                        fR.close()
+                        
+        writer.writerow(orgRow)
+        writer.writerow(intRow)
+        
+        diffRow = 'Differences'
+        
+        for group in groupNames:
+            
+            diffRow.append('')
+            
+        writer.writerow(diffRow)
+        
+    orgRow = []
+    calcRow = []
+    
+    rowList = []
+    
+    with open(writeFile, newline='') as csvfile:
+        
+        reader = csv.reader(csvfile)
+        
+        for row in reader:
+            
+            rowList.append(row)
+            
+    for elem in arrPar:
+        
+        rowVal = [elem]
+        
+        with open(writeFile, newline='') as csvfile:
+            
+            reader = csv.reader(csvfile)
+
+            for row in reader:
+                
+                indVal = row[0]
+                
+                if (indVal=='Original'):
+                    
+                    orgRow = row
+                
+                if (indVal==str(elem)):
+                    
+                    calcRow = row
+                    
+        for rowInd, value in enumerate(orgRow):
+            
+            if (rowInd!=0):
+                
+                calcVal = float(calcRow[rowInd]) - float(value)
+                rowVal.append(calcVal)
+                
+        rowList.append(rowVal)
+        
+    with open(writeFile, 'w', encoding='UTF8', newline='') as fW:
+    
+        writer = csv.writer(fW)
+        
+        for row in rowList:
+            
+            writer.writerow(row)
+            

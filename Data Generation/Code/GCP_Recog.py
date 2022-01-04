@@ -1,3 +1,178 @@
+configText = 'CONFIG.txt'
+
+fConfig = open(configText, "r")
+
+while True:
+    
+    line = fConfig.readline()
+    
+    if not line:
+        break
+    
+    words = line[:-1]
+        
+    if words.startswith('SNR'):
+        
+        start = words.find('[') + 1
+        
+        end = words.find(']')
+        
+        intWords = words[start:end]
+        
+        resWords = intWords.split(',')
+        
+        resWords = [int(i) for i in resWords]
+        
+        SNR = resWords
+        
+    if words.startswith('amp'):
+        
+        start = words.find('[') + 1
+        
+        end = words.find(']')
+        
+        intWords = words[start:end]
+        
+        resWords = intWords.split(',')
+        
+        resWords = [float(i) for i in resWords]
+        
+        amp = resWords
+        
+    if words.startswith('clipping'):
+        
+        start = words.find('[') + 1
+        
+        end = words.find(']')
+        
+        intWords = words[start:end]
+        
+        resWords = intWords.split(',')
+        
+        resWords = [float(i) for i in resWords]
+        
+        clipping = resWords
+        
+    if words.startswith('drop'):
+        
+        start = words.find('[') + 1
+        
+        end = words.find(']')
+        
+        intWords = words[start:end]
+        
+        resWords = intWords.split(',')
+        
+        resWords = [int(i) for i in resWords]
+        
+        drop = resWords
+        
+    if words.startswith('frame'):
+        
+        start = words.find('[') + 1
+        
+        end = words.find(']')
+        
+        intWords = words[start:end]
+        
+        resWords = intWords.split(',')
+        
+        resWords = [int(i) for i in resWords]
+        
+        frame = resWords
+        
+    if words.startswith('highpass'):
+        
+        start = words.find('[') + 1
+        
+        end = words.find(']')
+        
+        intWords = words[start:end]
+        
+        resWords = intWords.split(',')
+        
+        resWords = [int(i) for i in resWords]
+        
+        highpass = resWords
+        
+    if words.startswith('lowpass'):
+        
+        start = words.find('[') + 1
+        
+        end = words.find(']')
+        
+        intWords = words[start:end]
+        
+        resWords = intWords.split(',')
+        
+        resWords = [int(i) for i in resWords]
+        
+        lowpass = resWords
+        
+    if words.startswith('scale'):
+        
+        start = words.find('[') + 1
+        
+        end = words.find(']')
+        
+        intWords = words[start:end]
+        
+        resWords = intWords.split(',')
+        
+        resWords = [float(i) for i in resWords]
+        
+        scale = resWords
+        
+    if words.startswith('groupNames'):
+        
+        intWordInd = words.find('\'')
+        
+        intWords = words[intWordInd:]
+        
+        resWords = intWords.split(',')
+        
+        newResWords = []
+        
+        for resWord in resWords:
+            
+            start = resWord.find('\'') + 1
+            resWord = resWord[start:]
+            end = resWord.find('\'')
+            resWord = resWord[:end]
+            
+            newResWords.append(resWord)
+            
+        resWords = newResWords
+        
+        groupNames = resWords
+        
+    if words.startswith('transList'):
+        
+        intWordInd = words.find('\'')
+        
+        intWords = words[intWordInd:]
+        
+        resWords = intWords.split(',')
+        
+        newResWords = []
+        
+        for resWord in resWords:
+            
+            start = resWord.find('\'') + 1
+            resWord = resWord[start:]
+            end = resWord.find('\'')
+            resWord = resWord[:end]
+            
+            newResWords.append(resWord)
+            
+        resWords = newResWords
+        
+        transList = resWords
+        
+fConfig.close()
+
+'''
+
 groupName = 'nativeEnglish'
 #specify Group Name for Storage of Results
 
@@ -26,6 +201,8 @@ scale = [0.5, 0.6, 0.7, 0.8, 0.9, 1.0] #Parameters for Scale
 listUse = ['example1.wav', 'example2.wav', 'example3.wav']
 #List of Original Unmodified Files in Group
 
+'''
+
 # Imports the Google Cloud client library
 from google.cloud import speech
 
@@ -42,86 +219,130 @@ bucket = storage_client.bucket(bucketName)
 
 import librosa
 
-for transType in transList:
-
-    if (transType=='Noise'):
-        
-        arrPar = SNR
-        appChar = 'N'
-    elif (transType=='Amp'):
-        
-        arrPar = amp
-        appChar = 'A'
-    elif (transType=='Clipping'):
-        
-        arrPar = clipping
-        appChar = 'C'
-    elif (transType=='Drop'):
-        
-        arrPar = drop
-        appChar = 'D'
-    elif (transType=='Frame'):
-        
-        arrPar = frame
-        appChar = 'F'
-    elif (transType=='HP'):
-        
-        arrPar = highpass
-        appChar = 'HP'
-    elif (transType=='LP'):
-        
-        arrPar = lowpass
-        appChar = 'LP'
-    elif (transType=='Scale'):
-        
-        arrPar = scale
-        appChar = 'S'
-        
-    for elem in arrPar:
-        
-        resList = []
-        
-        for speechNum in listUse:
-            
-            fileNum = speechNum[:-4]
-            
-            newFile = fileNum + appChar + str(elem) + '.wav'
-            
-            signal, sr = librosa.load(newFile, sr=None)
-            
-            resList.append(newFile)
-            
-            blob = bucket.blob(newFile)
-        
-            blob.upload_from_filename(newFile)
-            
-            gcsURI = "gs://" + bucketName + "/" + newFile
-            
-            audio = speech.RecognitionAudio(uri=gcsURI)
-                
-            config = speech.RecognitionConfig(
-            encoding=speech.RecognitionConfig.AudioEncoding.LINEAR16,
-            sample_rate_hertz=sr,
-            language_code="en-US",
-            )
-            
-            operation = client.long_running_recognize(
-                request={"config": config, "audio": audio}
-            )
-            
-            response = operation.result()
-            
-            finRes = ''
-            
-            for result in response.results:
-                finRes += result.alternatives[0].transcript
+for group in groupNames:
     
-            resList.append(finRes)
-            
-            strGroup = groupName + '_GCP_' + appChar + str(elem) + '.txt' 
-            
-            opFile = strGroup
+    fNamesText = group + '/' + 'fileNames.txt'
+    
+    fNames = open(fNamesText, "r")
+    
+    while True:
         
-            with open(opFile, 'w') as f:
-                for item in resList:
-                    f.write("%s\n" % item)
+        line = fNames.readline()
+        
+        if not line:
+            break
+        
+        words = line[:-1]
+        
+        if words[:7] == 'listUse':
+            
+            intWords = words[7:]
+            
+            intWordInd = intWords.find('\'')
+            
+            intWords = intWords[intWordInd:]
+            
+            resWords = intWords.split(',')
+            
+            newResWords = []
+            
+            for resWord in resWords:
+                
+                start = resWord.find('\'') + 1
+                resWord = resWord[start:]
+                end = resWord.find('\'')
+                resWord = resWord[:end]
+                
+                newResWords.append(resWord)
+                
+            resWords = newResWords
+            
+            listUse = resWords
+
+    for transType in transList:
+    
+        if (transType=='Noise'):
+            
+            arrPar = SNR
+            appChar = 'N'
+        elif (transType=='Amp'):
+            
+            arrPar = amp
+            appChar = 'A'
+        elif (transType=='Clipping'):
+            
+            arrPar = clipping
+            appChar = 'C'
+        elif (transType=='Drop'):
+            
+            arrPar = drop
+            appChar = 'D'
+        elif (transType=='Frame'):
+            
+            arrPar = frame
+            appChar = 'F'
+        elif (transType=='HP'):
+            
+            arrPar = highpass
+            appChar = 'HP'
+        elif (transType=='LP'):
+            
+            arrPar = lowpass
+            appChar = 'LP'
+        elif (transType=='Scale'):
+            
+            arrPar = scale
+            appChar = 'S'
+            
+        for elem in arrPar:
+            
+            resList = []
+            
+            for speechNum in listUse:
+                
+                speechNum = group + '/' + speechNum
+                
+                fileNum = speechNum[:-4]
+                
+                newFile = fileNum + appChar + str(elem) + '.wav'
+                
+                signal, sr = librosa.load(newFile, sr=None)
+                
+                resList.append(newFile)
+                
+                blob = bucket.blob(newFile)
+            
+                blob.upload_from_filename(newFile)
+                
+                gcsURI = "gs://" + bucketName + "/" + newFile
+                
+                audio = speech.RecognitionAudio(uri=gcsURI)
+                    
+                config = speech.RecognitionConfig(
+                encoding=speech.RecognitionConfig.AudioEncoding.LINEAR16,
+                sample_rate_hertz=sr,
+                language_code="en-US",
+                )
+                
+                operation = client.long_running_recognize(
+                    request={"config": config, "audio": audio}
+                )
+                
+                response = operation.result()
+                
+                finRes = ''
+                
+                for result in response.results:
+                    finRes += result.alternatives[0].transcript
+        
+                resList.append(finRes)
+                
+                strGroup = group + '_GCP_' + appChar + str(elem) + '.txt' 
+                
+                opFile = strGroup
+            
+                with open(opFile, 'w') as f:
+                    for item in resList:
+                        f.write("%s\n" % item)
+                        
+    fNames.close()

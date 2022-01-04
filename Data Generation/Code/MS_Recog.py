@@ -1,3 +1,178 @@
+configText = 'CONFIG.txt'
+
+fConfig = open(configText, "r")
+
+while True:
+    
+    line = fConfig.readline()
+    
+    if not line:
+        break
+    
+    words = line[:-1]
+        
+    if words.startswith('SNR'):
+        
+        start = words.find('[') + 1
+        
+        end = words.find(']')
+        
+        intWords = words[start:end]
+        
+        resWords = intWords.split(',')
+        
+        resWords = [int(i) for i in resWords]
+        
+        SNR = resWords
+        
+    if words.startswith('amp'):
+        
+        start = words.find('[') + 1
+        
+        end = words.find(']')
+        
+        intWords = words[start:end]
+        
+        resWords = intWords.split(',')
+        
+        resWords = [float(i) for i in resWords]
+        
+        amp = resWords
+        
+    if words.startswith('clipping'):
+        
+        start = words.find('[') + 1
+        
+        end = words.find(']')
+        
+        intWords = words[start:end]
+        
+        resWords = intWords.split(',')
+        
+        resWords = [float(i) for i in resWords]
+        
+        clipping = resWords
+        
+    if words.startswith('drop'):
+        
+        start = words.find('[') + 1
+        
+        end = words.find(']')
+        
+        intWords = words[start:end]
+        
+        resWords = intWords.split(',')
+        
+        resWords = [int(i) for i in resWords]
+        
+        drop = resWords
+        
+    if words.startswith('frame'):
+        
+        start = words.find('[') + 1
+        
+        end = words.find(']')
+        
+        intWords = words[start:end]
+        
+        resWords = intWords.split(',')
+        
+        resWords = [int(i) for i in resWords]
+        
+        frame = resWords
+        
+    if words.startswith('highpass'):
+        
+        start = words.find('[') + 1
+        
+        end = words.find(']')
+        
+        intWords = words[start:end]
+        
+        resWords = intWords.split(',')
+        
+        resWords = [int(i) for i in resWords]
+        
+        highpass = resWords
+        
+    if words.startswith('lowpass'):
+        
+        start = words.find('[') + 1
+        
+        end = words.find(']')
+        
+        intWords = words[start:end]
+        
+        resWords = intWords.split(',')
+        
+        resWords = [int(i) for i in resWords]
+        
+        lowpass = resWords
+        
+    if words.startswith('scale'):
+        
+        start = words.find('[') + 1
+        
+        end = words.find(']')
+        
+        intWords = words[start:end]
+        
+        resWords = intWords.split(',')
+        
+        resWords = [float(i) for i in resWords]
+        
+        scale = resWords
+        
+    if words.startswith('groupNames'):
+        
+        intWordInd = words.find('\'')
+        
+        intWords = words[intWordInd:]
+        
+        resWords = intWords.split(',')
+        
+        newResWords = []
+        
+        for resWord in resWords:
+            
+            start = resWord.find('\'') + 1
+            resWord = resWord[start:]
+            end = resWord.find('\'')
+            resWord = resWord[:end]
+            
+            newResWords.append(resWord)
+            
+        resWords = newResWords
+        
+        groupNames = resWords
+        
+    if words.startswith('transList'):
+        
+        intWordInd = words.find('\'')
+        
+        intWords = words[intWordInd:]
+        
+        resWords = intWords.split(',')
+        
+        newResWords = []
+        
+        for resWord in resWords:
+            
+            start = resWord.find('\'') + 1
+            resWord = resWord[start:]
+            end = resWord.find('\'')
+            resWord = resWord[:end]
+            
+            newResWords.append(resWord)
+            
+        resWords = newResWords
+        
+        transList = resWords
+        
+fConfig.close()
+
+'''
+
 groupName = 'nativeEnglish'
 #specify Group Name for Storage of Results
 
@@ -25,6 +200,8 @@ scale = [0.5, 0.6, 0.7, 0.8, 0.9, 1.0] #Parameters for Scale
 
 listUse = ['example1.wav', 'example2.wav', 'example3.wav']
 #List of Original Unmodified Files in Group
+
+'''
 
 import azure.cognitiveservices.speech as speechsdk
 
@@ -84,67 +261,111 @@ def speech_recognize_continuous_from_file(fileName):
     
     return all_results
 
-for transType in transList:
-
-    if (transType=='Noise'):
-        
-        arrPar = SNR
-        appChar = 'N'
-    elif (transType=='Amp'):
-        
-        arrPar = amp
-        appChar = 'A'
-    elif (transType=='Clipping'):
-        
-        arrPar = clipping
-        appChar = 'C'
-    elif (transType=='Drop'):
-        
-        arrPar = drop
-        appChar = 'D'
-    elif (transType=='Frame'):
-        
-        arrPar = frame
-        appChar = 'F'
-    elif (transType=='HP'):
-        
-        arrPar = highpass
-        appChar = 'HP'
-    elif (transType=='LP'):
-        
-        arrPar = lowpass
-        appChar = 'LP'
-    elif (transType=='Scale'):
-        
-        arrPar = scale
-        appChar = 'S'
+for group in groupNames:
     
-    for elem in arrPar:
+    fNamesText = group + '/' + 'fileNames.txt'
+    
+    fNames = open(fNamesText, "r")
+    
+    while True:
         
-        resList = []
+        line = fNames.readline()
         
-        for speechNum in listUse:
+        if not line:
+            break
+        
+        words = line[:-1]
+        
+        if words[:7] == 'listUse':
             
-            fileNum = speechNum[:-4]
+            intWords = words[7:]
             
-            newFile = fileNum + appChar + str(elem) + '.wav'
+            intWordInd = intWords.find('\'')
             
-            resList.append(newFile)
+            intWords = intWords[intWordInd:]
             
-            result = speech_recognize_continuous_from_file(newFile)
+            resWords = intWords.split(',')
             
-            finRes = ''
+            newResWords = []
             
-            for resElem in result:
+            for resWord in resWords:
                 
-                finRes += resElem
+                start = resWord.find('\'') + 1
+                resWord = resWord[start:]
+                end = resWord.find('\'')
+                resWord = resWord[:end]
+                
+                newResWords.append(resWord)
+                
+            resWords = newResWords
+            
+            listUse = resWords
+
+    for transType in transList:
     
-            resList.append(finRes)
+        if (transType=='Noise'):
             
-            strGroup = groupName + '_MS_' + appChar + str(elem) + '.txt' 
+            arrPar = SNR
+            appChar = 'N'
+        elif (transType=='Amp'):
             
-            opFile = strGroup
+            arrPar = amp
+            appChar = 'A'
+        elif (transType=='Clipping'):
+            
+            arrPar = clipping
+            appChar = 'C'
+        elif (transType=='Drop'):
+            
+            arrPar = drop
+            appChar = 'D'
+        elif (transType=='Frame'):
+            
+            arrPar = frame
+            appChar = 'F'
+        elif (transType=='HP'):
+            
+            arrPar = highpass
+            appChar = 'HP'
+        elif (transType=='LP'):
+            
+            arrPar = lowpass
+            appChar = 'LP'
+        elif (transType=='Scale'):
+            
+            arrPar = scale
+            appChar = 'S'
         
-            with open(opFile, 'w') as f:
-                for item in resList:
-                    f.write("%s\n" % item)
+        for elem in arrPar:
+            
+            resList = []
+            
+            for speechNum in listUse:
+                
+                speechNum = group + '/' + speechNum
+                
+                fileNum = speechNum[:-4]
+                
+                newFile = fileNum + appChar + str(elem) + '.wav'
+                
+                resList.append(newFile)
+                
+                result = speech_recognize_continuous_from_file(newFile)
+                
+                finRes = ''
+                
+                for resElem in result:
+                    
+                    finRes += resElem
+        
+                resList.append(finRes)
+                
+                strGroup = group + '_MS_' + appChar + str(elem) + '.txt' 
+                
+                opFile = strGroup
+            
+                with open(opFile, 'w') as f:
+                    for item in resList:
+                        f.write("%s\n" % item)
+                        
+    fNames.close()

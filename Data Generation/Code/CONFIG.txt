@@ -1,0 +1,22 @@
+datasetName = 'Accents'
+
+groupNames = 'english', 'ganda', 'french'
+
+transList = 'Noise', 'Amp', 'Clipping', 'Drop', 'Frame', 'HP', 'LP', 'Scale'
+
+SNR = [2, 4, 6, 8, 10] #Parameters for Noise
+
+amp = [0.1, 0.2, 0.3, 0.4, 0.5, 2.0] #Parameters for Amp
+
+clipping = [0.01, 0.02, 0.03, 0.04, 0.05] #Parameters for Clipping
+
+drop = [5, 10, 15, 20, 25] #Parameters for Drop
+
+frame = [10, 20, 30, 40, 50] #Parameters for Frame
+
+highpass = [500, 600, 700, 800, 900] #Parameters for HP
+
+lowpass = [500, 600, 700, 800, 900] #Parameters for LP
+
+scale = [0.5, 0.6, 0.7, 0.8, 0.9, 1.0] #Parameters for Scale
+
