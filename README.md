@@ -193,9 +193,9 @@ We use a TTS engine followed by an ASR engine to verify that the generated sente
 
 ## Datasets Used
 
-Audio data (and the transformed audio files) used in the evaluvation of the paper is linked below.
+Audio data (and the transformed audio files) used in the evaluvation of the paper is linked below. The link also contains a copy of this Repo in addition to the dataset.
 
-Link: 
+Link: [DOI](https://zenodo.org/record/5819312)
 
 Additionaly, the tables used for analysis are also included in the Analysis section.
 
