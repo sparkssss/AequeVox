@@ -185,7 +185,7 @@ french
 #### compTableGen.py
 
 Takes the results of compASR.py and generates a csv file for further analysis using functions in the Analysis section in the form of 
-{AsrType1}_{AsrType2} Differential Speech Results - {Transformation Type}.csv.
+{AsrType1}_{AsrType2} Differential Speech Results - {Transformation Type}.csv. Suggested pairs: GCP_IBM, MS_GCP, and MS_IBM.
 
 ```
 
