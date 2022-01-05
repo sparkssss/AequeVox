@@ -309,12 +309,12 @@ This work is licensed under a
 ## Citing AequeVox
 
 ```
-@article{aequevox,
+@inproceedings{aequevox,
   title={AequeVox: Automated Fairness Testing of Speech Recognition Systems},
   author={Sai Sathiesh Rajan and
                Sakshi Udeshi and
                Sudipta Chattopadhyay},
-  journal={Fundamental Approaches to Software Engineering},
+  booktitle={25th International Conference on Fundamental Approaches to Software Engineering (FASE)},
   year={2022}
 }
 ```
