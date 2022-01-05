@@ -270,6 +270,12 @@ They utillise a constructed grammar to generate sentences that comprise of robus
 
 We use a TTS engine followed by an ASR engine to verify that the generated sentences containing non-robust words induce mispredictions of said non-robust words.
 
+#### User Study
+
+The data for the user study is included in the Repo and running the Graphs.ipynb will allow users to generate the comprehensibilty rating diagram shown below.
+
+![Comprehensibilty Threshold Based on User Study](https://github.com/sparkssss/AequeVox/blob/main/Analysis/User%20Study/User-Study-Graph.png?raw=true)
+
 ## Datasets Used
 
 Audio data (and the transformed audio files) used in the evaluvation of the paper is linked below. The link also contains a copy of this Repo in addition to the dataset.
