@@ -2,7 +2,7 @@
 
 README under development.
 
-![Detecting Unfairness in Speech Recognition System](https://github.com/sparkssss/AequeVox/intro-diagram.png?raw=true)
+![Detecting Unfairness in Speech Recognition System](https://github.com/sparkssss/AequeVox/blob/main/intro-diagram.png?raw=true)
 
 ## Requirements
 
