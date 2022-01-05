@@ -2,6 +2,10 @@
 
 README under development.
 
+![Detecting Unfairness in Speech Recognition System](https://github.com/sparkssss/AequeVox/blob/main/intro-diagram.png?raw=true)
+
+AequeVox is an automated testing framework for evaluating the fairness of ASR systems. AequeVox simulates different environments through meaningful transformations to assess the effectiveness of ASR systems for different populations. It also introduces a fault localization technique capable of identifying words that are not robust to these varying environments. Both components of AequeVox are able to operate in the absence of ground truth data.
+
 ## Requirements
 
 ### Python Packages Required
@@ -129,19 +133,33 @@ List of Abbreviations.
 * N - Noise
 * S - Scale
 
-#### GCP_Recog.py
+#### ASR Specific Files
+
+These files take in the transformed audio files and returns transcripts in the form of text files. For instance one generated file might be named
+english_GCP_N2.txt and contain text similar to the below block.
+
+```
+english/english1N2.wav
+please call stella blah blah blah
+english/english2N2.wav
+please call stella blah blah blah
+english/english3N2.wav
+please call stella blah blah blah
+```
+
+##### GCP_Recog.py
 
 Requires Google cloud client libraries and associated keys.
 
 Generates transcripts for all the transformed files. Outputs text files in the form {Group Name}_GCP_{Transformation Type Abbreviation}{Magnitude of Transformation Parameter, theta}.txt
 
-#### MS_Recog.py
+##### MS_Recog.py
 
 Requires Microsoft Azure client libraries and associated key and region.
 
 Generates transcripts for all the transformed files. Outputs text files in the form {Group Name}_MS_{Transformation Type Abbreviation}{Magnitude of Transformation Parameter, theta}.txt
 
-#### IBM_Recog.py
+##### IBM_Recog.py
 
 Requires IBM client libraries and associated key and service URL..
 
@@ -149,17 +167,66 @@ Generates transcripts for all the transformed files. Outputs text files in the f
 
 #### compASR.py
 
-Takes the names of two ASR systems to generate a distance metric. Result yields text files with distance metrics for specified ASR pair.
+Takes the names of two ASR systems to generate a distance metric. Result yields text files with distance metrics for specified ASR pair. The resultant text file takes the form {Dataset Name}_{ASR Type 1}_{ASR Type 2}{Transformation Type}.txt. Suggested pairs: GCP_IBM, MS_GCP, and MS_IBM.
+
+A sample text file generated is given below.
+
+```
+english
+(2, 0.37432)
+(4, 0.25334242)
+(6, 0.37432)
+french
+(2, 0.24132)
+(4, 0.20034242)
+(6, 0.17432)
+```
 
 #### compTableGen.py
 
 Takes the results of compASR.py and generates a csv file for further analysis using functions in the Analysis section in the form of 
 {AsrType1}_{AsrType2} Differential Speech Results - {Transformation Type}.csv
 
+```
+
+|           |Eng                |Gan                |Fr                 |Guj                |Ind                |Kor                |Rus                |
+|-----------|-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|
+|5          |0.12363636363636364|0.24468085106382978|0.12363636363636364|0.16666666666666666|0.17562724014336917|0.41454545454545455|0.23272727272727273|
+|10         |0.13768115942028986|0.26480836236933797|0.14909090909090908|0.18840579710144928|0.19424460431654678|0.4684014869888476 |0.23826714801444043|
+|15         |0.12681159420289856|0.33935018050541516|0.1391941391941392 |0.21978021978021978|0.21245421245421245|0.5019607843137255 |0.23333333333333334|
+|20         |0.15018315018315018|0.3861003861003861 |0.17883211678832117|0.25274725274725274|0.21454545454545454|0.51953125         |0.31970260223048325|
+|25         |0.15579710144927536|0.4846153846153846 |0.2600732600732601 |0.2936802973977695 |0.32567049808429116|0.6072874493927125 |0.34099616858237547|
+|           |                   |                   |                   |                   |                   |                   |                   |
+|Original   |0.1090909091       |0.2132867133       |0.1123188406       |0.152173913        |0.1612903226       |0.3455882353       |0.1781818182       |
+|           |                   |                   |                   |                   |                   |                   |                   |
+|Differences|                   |                   |                   |                   |                   |                   |                   |
+|5          |0.01454545455      |0.03139413778      |0.01131752306      |0.01449275362      |0.01433691756      |0.06895721925      |0.05454545455      |
+|10         |0.02859025033      |0.05152164908      |0.03677206851      |0.03623188406      |0.03295428174      |0.1228132517       |0.06008532983      |
+|15         |0.01772068511      |0.1260634672       |0.02687529861      |0.06760630674      |0.05116388987      |0.156372549        |0.05515151515      |
+|20         |0.04109224109      |0.1728136728       |0.06651327621      |0.1005733397       |0.05325513196      |0.1739430147       |0.141520784        |
+|25         |0.04670619236      |0.2713286713       |0.1477544195       |0.1415063844       |0.1643801755       |0.2616992141       |0.1628143504       |
+
+```
+
 #### wordDropTableGen.py
 
 Takes the results of the recognition files to generate a list of the word drops (csv files) for further use in the Analysis section. These files take the form
-{AsrType} Word Counts - {Transformation Type}.csv and {AsrType} Word Counts - Average.csv
+{AsrType} Word Counts - {Transformation Type}.csv and {AsrType} Word Counts - Average.csv. A sample average counts table is shown below.
+
+```
+
+|         |English     |Ganda       |French      |Gujarati    |Indonesian  |Korean      |Russian     |
+|---------|------------|------------|------------|------------|------------|------------|------------|
+|Clipping |2.581818182 |3.036363636 |2.727272727 |3.454545455 |2.890909091 |2.963636364 |4.036363636 |
+|Amplitude|0.4909090909|0.3090909091|0.2181818182|0.2545454545|0.1636363636|0.4909090909|0.2909090909|
+|Drop     |0.4909090909|1           |0.8909090909|0.7454545455|0.7636363636|1.345454545 |0.9272727273|
+|Frame    |0.7090909091|1.163636364 |1.036363636 |0.9636363636|0.6727272727|1.545454545 |0.8363636364|
+|HP       |2.145454545 |1.854545455 |0.8181818182|0.4727272727|1.272727273 |1.145454545 |2.109090909 |
+|LP       |0.5272727273|1.127272727 |0.8363636364|0.8545454545|0.5090909091|1.109090909 |1.290909091 |
+|Noise    |0.8363636364|1.490909091 |1.363636364 |1.690909091 |0.9454545455|1.818181818 |1.981818182 |
+|Scale    |1.927272727 |2.127272727 |1.818181818 |0.9090909091|1.327272727 |1.981818182 |1.618181818 |
+
+```
 
 ### Analysis
 
