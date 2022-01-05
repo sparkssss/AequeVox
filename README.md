@@ -140,11 +140,11 @@ english_GCP_N2.txt and contain text similar to the below block.
 
 ```
 english/english1N2.wav
-please call stella blah blah blah
+please call stella ...
 english/english2N2.wav
-please call stella blah blah blah
+please call stella ...
 english/english3N2.wav
-please call stella blah blah blah
+please call stella ...
 ```
 
 ##### GCP_Recog.py
