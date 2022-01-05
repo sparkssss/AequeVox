@@ -1,7 +1,5 @@
 # Replication Package for AequeVox: Automated Fairness Testing for Speech Recognition Systems
 
-README under development.
-
 ![Detecting Unfairness in Speech Recognition System](https://github.com/sparkssss/AequeVox/blob/main/intro-diagram.png?raw=true)
 
 AequeVox is an automated testing framework for evaluating the fairness of ASR systems. AequeVox simulates different environments through meaningful transformations to assess the effectiveness of ASR systems for different populations. It also introduces a fault localization technique capable of identifying words that are not robust to these varying environments. Both components of AequeVox are able to operate in the absence of ground truth data.
@@ -311,13 +309,12 @@ This work is licensed under a
 ## Citing AequeVox
 
 ```
-@article{DBLP:journals/corr/abs-2110-09843,
-  author    = {Sai Sathiesh Rajan and
+@article{aequevox,
+  title={AequeVox: Automated Fairness Testing of Speech Recognition Systems},
+  author={Sai Sathiesh Rajan and
                Sakshi Udeshi and
                Sudipta Chattopadhyay},
-  title     = {AequeVox: Automated Fairness Testing of Speech Recognition Systems},
-  year      = {2021},
-  url       = {https://arxiv.org/abs/2110.09843},
-  eprinttype = {arXiv}
+  journal={Fundamental Approaches to Software Engineering},
+  year={2021}
 }
 ```
