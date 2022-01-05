@@ -267,9 +267,13 @@ It also prints a word drop array. (This array lists words in increasing order of
 
 They utillise a constructed grammar to generate sentences that comprise of robust and non-robust words respectively.
 
+* These can be generated using the ASR specific notebooks. They take the form {ASR Type}-Sentence-Gen-Template.ipynb.
+
 #### Generalizability RQ
 
 We use a TTS engine followed by an ASR engine to verify that the generated sentences containing non-robust words induce mispredictions of said non-robust words.
+
+* The Gen_Graphs.ipynb generates the graph comparing the errors between the two classes of sentences.
 
 #### User Study
 
@@ -279,7 +283,7 @@ The data for the user study is included in the Repo and running the Graphs.ipynb
 
 ## Datasets Used
 
-Audio data (and the transformed audio files) used in the evaluvation of the paper is linked below. The link also contains a copy of this Repo in addition to the dataset.
+Audio data (and the transformed audio files) used in the evaluation of the paper is linked below. The link also contains a copy of this Repo in addition to the dataset.
 
 Link: [DOI](https://zenodo.org/record/5819312)
 
