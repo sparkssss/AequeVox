@@ -337,12 +337,12 @@ for group in groupNames:
         
                 resList.append(finRes)
                 
-                strGroup = group + '_GCP_' + appChar + str(elem) + '.txt' 
-                
-                opFile = strGroup
+            strGroup = group + '_GCP_' + appChar + str(elem) + '.txt' 
             
-                with open(opFile, 'w') as f:
-                    for item in resList:
-                        f.write("%s\n" % item)
+            opFile = strGroup
+        
+            with open(opFile, 'w') as f:
+                for item in resList:
+                    f.write("%s\n" % item)
                         
     fNames.close()
