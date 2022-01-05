@@ -2,6 +2,8 @@
 
 README under development.
 
+![Detecting Unfairness in Speech Recognition System](https://github.com/sparkssss/AequeVox/intro-diagram.png?raw=true)
+
 ## Requirements
 
 ### Python Packages Required
