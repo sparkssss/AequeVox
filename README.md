@@ -94,11 +94,11 @@ For end to end testing of the tool, we recommend running the following files in 
 1. transGen.py
 2. GCP_Recog.py and/or MS_Recog.py and/or IBM_Recog.py
 3. compASR.py
- * Note: For compASR.py, the first two lines of the python file allow you to specifiy the ASRs to be used. GCP/IBM, MS/GCP, and MS/IBM are tested in the paper.
+ * Note: For compASR.py, the first two lines of the python file allow you to specify the ASRs to be used. GCP/IBM, MS/GCP, and MS/IBM are tested in the paper.
 4. compTableGen.py
- * Note: For compTableGen.py, the first two lines of the python file allow you to specifiy the ASRs to be used. GCP/IBM, MS/GCP, and MS/IBM are tested in the paper.
+ * Note: For compTableGen.py, the first two lines of the python file allow you to specify the ASRs to be used. GCP/IBM, MS/GCP, and MS/IBM are tested in the paper.
 5. wordDropTableGen.py
- * Note: For wordDropTableGen.py, the first line of the python file allow you to specifiy the ASR to be used. GCP, MS, and IBM are tested in the paper.
+ * Note: For wordDropTableGen.py, the first line of the python file allow you to specify the ASR to be used. GCP, MS, and IBM are tested in the paper.
 
 #### CONFIG.txt
 
@@ -135,7 +135,7 @@ List of Abbreviations.
 
 #### ASR Specific Files
 
-These files take in the transformed audio files and returns transcripts in the form of text files. For instance one generated file might be named
+These files take in the transformed audio files and return transcripts in the form of text files. For instance one generated file might be named
 english_GCP_N2.txt and contain text similar to the below block.
 
 ```
@@ -240,7 +240,7 @@ Differential Testing Stats, Explainability_Unfairness and non-robust-words.ipynb
 
 #### Differential Testing Stats
 
-Calculates number of errors induced by each group in dataset as you vary tau. It utillises the outputs from compTableGen.py. 
+Calculates the number of errors induced by each group in the dataset as you vary tau. It utillises the outputs from compTableGen.py. 
 
 * To compare groups in the Accents dataset, the file for the GCP/IBM comparison ought to be placed under the subfolder Accents/GCP_IBM. 
 
@@ -277,7 +277,7 @@ We use a TTS engine followed by an ASR engine to verify that the generated sente
 
 #### User Study
 
-The data for the user study is included in the Repo and running the Graphs.ipynb will allow users to generate the comprehensibilty rating diagram shown below.
+The data for the user study is included in the Repo and running the Graphs.ipynb will allow users to generate the comprehensibility rating diagram shown below.
 
 ![Comprehensibilty Threshold Based on User Study](https://github.com/sparkssss/AequeVox/blob/main/Analysis/User%20Study/User-Study-Graph.png?raw=true)
 
@@ -287,7 +287,7 @@ Audio data (and the transformed audio files) used in the evaluation of the paper
 
 Link: [DOI](https://zenodo.org/record/5819312)
 
-Additionaly, the tables used for analysis are also included in the Analysis section.
+Additionally, the tables used for analysis are also included in the Analysis section.
 
 ## Caveats
 
