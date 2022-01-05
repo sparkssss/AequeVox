@@ -258,7 +258,7 @@ for transType in transList:
     fileName = datasetName + '_' + asrType1 + '_' + asrType2 + transType + '.txt'
     #File_Name_GCP_MSNoise.txt
     
-    writeFile = asrType1 + "_" +asrType2 + " Differential Speech Results - " + transType + '.csv'
+    writeFile = asrType1 + "_" + asrType2 + " Differential Speech Results - " + transType + '.csv'
     
     with open(writeFile, 'w', encoding='UTF8', newline='') as fW:
     
