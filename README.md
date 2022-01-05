@@ -283,7 +283,7 @@ The data for the user study is included in the Repo and running the Graphs.ipynb
 
 Audio data (and the transformed audio files) used in the evaluation of the paper is linked below. The link also contains a copy of this Repo in addition to the dataset.
 
-Link: [DOI](https://zenodo.org/record/5819312)
+Link: [DOI](https://doi.org/10.5281/zenodo.5819311)
 
 Additionally, the tables used for analysis are also included in the Analysis section.
 
