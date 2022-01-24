@@ -8,7 +8,7 @@ AequeVox is an automated testing framework for evaluating the fairness of ASR sy
 
 ### Python Packages Required
 
-* numpy
+* numpy (1.21.5)
 * scipy
 * math
 * librosa
@@ -54,6 +54,75 @@ Ibm_cloud_sdk_core.authenticators
 pip install ibm-watson
 pip install ibm-cloud-sdk-core
 ```
+
+## For Offline pip Installation (Ubuntu)
+
+'''
+pip install numpy-1.21.5-cp38-cp38-manylinux_2_12_x86_64.manylinux2010_x86_64.whl
+pip install appdirs-1.4.4-py2.py3-none-any.whl
+pip install audioread-2.1.9.tar.gz
+pip install azure_cognitiveservices_speech-1.19.0-cp38-cp38-manylinux1_x86_64.whl
+pip install cachetools-4.2.4-py3-none-any.whl
+pip install certifi-2021.10.8-py2.py3-none-any.whl
+pip install cffi-1.15.0-cp38-cp38-manylinux_2_12_x86_64.manylinux2010_x86_64.whl
+pip install charset_normalizer-2.0.10-py3-none-any.whl
+pip install click-8.0.3-py3-none-any.whl
+pip install cycler-0.11.0-py3-none-any.whl
+pip install decorator-5.1.1-py3-none-any.whl
+pip install fonttools-4.28.5-py3-none-any.whl
+pip install google_api_core-2.4.0-py2.py3-none-any.whl
+pip install googleapis_common_protos-1.54.0-py2.py3-none-any.whl
+pip install google_auth-2.3.3-py2.py3-none-any.whl
+pip install google_cloud_core-2.2.2-py2.py3-none-any.whl
+pip install google_cloud_speech-2.12.0-py2.py3-none-any.whl
+pip install google_cloud_storage-2.1.0-py2.py3-none-any.whl
+pip install google_crc32c-1.3.0-cp38-cp38-manylinux_2_12_x86_64.manylinux2010_x86_64.whl
+pip install google_resumable_media-2.1.0-py2.py3-none-any.whl
+pip install grpcio-1.43.0-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
+pip install grpcio_status-1.43.0-py3-none-any.whl
+pip install ibm-cloud-sdk-core-3.14.0.tar.gz
+pip install ibm-watson-5.3.0.tar.gz
+pip install idna-3.3-py3-none-any.whl
+pip install joblib-1.1.0-py2.py3-none-any.whl
+pip install kiwisolver-1.3.2-cp38-cp38-manylinux_2_5_x86_64.manylinux1_x86_64.whl
+pip install libcst-0.4.0-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
+pip install librosa-0.8.1-py3-none-any.whl
+pip install llvmlite-0.38.0-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
+pip install matplotlib-3.5.1-cp38-cp38-manylinux_2_5_x86_64.manylinux1_x86_64.whl
+pip install mypy_extensions-0.4.3-py2.py3-none-any.whl
+pip install nltk-3.6.7-py3-none-any.whl
+pip install numba-0.55.0-cp38-cp38-manylinux2014_x86_64.manylinux_2_17_x86_64.whl
+pip install packaging-21.3-py3-none-any.whl
+pip install Pillow-9.0.0-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
+pip install pooch-1.5.2-py3-none-any.whl
+pip install protobuf-3.19.3-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
+pip install proto_plus-1.19.8-py3-none-any.whl
+pip install pyasn1-0.4.8-py2.py3-none-any.whl
+pip install pyasn1_modules-0.2.8-py2.py3-none-any.whl
+pip install pycparser-2.21-py2.py3-none-any.whl
+pip install PyJWT-2.3.0-py3-none-any.whl
+pip install pyparsing-3.0.6-py3-none-any.whl
+pip install pyparsing-3.0.7-py3-none-any.whl
+pip install python_dateutil-2.8.2-py2.py3-none-any.whl
+pip install PyYAML-6.0-cp38-cp38-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_12_x86_64.manylinux2010_x86_64.whl
+pip install regex-2022.1.18-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
+pip install requests-2.27.1-py2.py3-none-any.whl
+pip install resampy-0.2.2.tar.gz
+pip install rsa-4.8-py3-none-any.whl
+pip install scikit_learn-1.0.2-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
+pip install scipy-1.7.3-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
+pip install setuptools-60.5.0-py3-none-any.whl
+pip install six-1.16.0-py2.py3-none-any.whl
+pip install SoundFile-0.10.3.post1-py2.py3-none-any.whl
+pip install threadpoolctl-3.0.0-py3-none-any.whl
+pip install tqdm-4.62.3-py2.py3-none-any.whl
+pip install typing_extensions-4.0.1-py3-none-any.whl
+pip install typing_inspect-0.7.1-py3-none-any.whl
+pip install urllib3-1.26.8-py2.py3-none-any.whl
+pip install websocket_client-1.1.0-py2.py3-none-any.whl
+'''
+
+
 
 ## Usage
 
