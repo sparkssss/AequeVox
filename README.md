@@ -57,7 +57,7 @@ pip install ibm-cloud-sdk-core
 
 ## For Offline pip Installation (Ubuntu)
 
-'''
+```
 pip install numpy-1.21.5-cp38-cp38-manylinux_2_12_x86_64.manylinux2010_x86_64.whl
 pip install appdirs-1.4.4-py2.py3-none-any.whl
 pip install audioread-2.1.9.tar.gz
@@ -120,8 +120,7 @@ pip install typing_extensions-4.0.1-py3-none-any.whl
 pip install typing_inspect-0.7.1-py3-none-any.whl
 pip install urllib3-1.26.8-py2.py3-none-any.whl
 pip install websocket_client-1.1.0-py2.py3-none-any.whl
-'''
-
+```
 
 
 ## Usage
