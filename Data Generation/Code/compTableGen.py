@@ -362,7 +362,7 @@ for transType in transList:
         writer.writerow(orgRow)
         writer.writerow(intRow)
         
-        diffRow = 'Differences'
+        diffRow = ['Differences']
         
         for group in groupNames:
             
